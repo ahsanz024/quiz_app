@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/answer.dart';
 
 import './question.dart';
 
@@ -14,7 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var questions = ['First Question', 'Second Question'];
   var _questionIndex = 0;
 
   void _onClick() {
@@ -26,31 +26,39 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // final List<String> questions = ['First Question', 'Second Question'];
+    var questions = [
+      {
+        'question': 'What\' your fav color?',
+        'answers': ['Green', 'Blue', 'Grey']
+      },
+      {
+        'question': 'What\' your fav animal?',
+        'answers': ['Dog', 'Cat', 'Fish', 'Turtle']
+      },
+      {
+        'question': 'What\' your fav Movie?',
+        'answers': ['Matrix', 'Valkyrie', 'Die Hard', 'Friends']
+      }
+    ];
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text("Quiz App"),
-          ),
-          // backgroundColor: Color.fromRGBO(r, g, b, opacity),
-          body: Column(
-            children: [
-              Question(
-                questions[_questionIndex],
-              ),
-              RaisedButton(
-                onPressed: _onClick,
-                child: Text("Text 1"),
-              ),
-              RaisedButton(
-                onPressed: () => print("Text 2 Clicked"),
-                child: Text("Text 2"),
-              ),
-              RaisedButton(
-                onPressed: () => print("Text 3 Clicked"),
-                child: Text("Text 3"),
-              )
-            ],
-          )),
+        appBar: AppBar(
+          title: Text("Quiz App"),
+        ),
+        // backgroundColor: Color.fromRGBO(r, g, b, opacity),
+        body: Column(
+          children: [
+            Question(
+              questions[_questionIndex]['question'],
+            ),
+            ...(questions[_questionIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(answer, _onClick);
+            })
+          ],
+        ),
+      ),
     );
   }
 }
